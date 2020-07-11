@@ -48,6 +48,20 @@ var Button = function() {
 }();
 
 
+// Loader
+var Loader = function() {
+    return {
+        start: function() {
+            document.getElementById('page-loader').style.display = 'flex';
+        },
+
+        end: function() {
+            document.getElementById('page-loader').style.display = 'none';
+        }
+    }
+}();
+
+
 // Validate Forms
 var FormValidate = function() {
     return {
@@ -283,6 +297,34 @@ var Pagination = function(){
                     </ul>
                 </nav>
             `;
+        }
+    }
+}();
+
+
+// Audio Player
+var Player = function(){
+    var playing_audio = null;
+
+    return {
+        play: function(){
+            msg.success('', 'Playing');
+        },
+
+        stop: function(){
+            if (playing_audio){
+                playing_audio.pause();
+            }
+        },
+
+        play_track: function(path, name){
+            if(path){
+                Player.stop();
+                playing_audio = new Audio(path);
+                playing_audio.play();
+
+                msg.success('Playing ' + name, 'Playing');
+            }
         }
     }
 }();

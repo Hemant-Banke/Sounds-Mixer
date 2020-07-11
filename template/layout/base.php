@@ -16,7 +16,8 @@
         .page-loader{
             width: 100%;
             height: 100%;
-            background-color: #fff;
+            background-color: #4d4d4d;
+            color: #fff;
             position: fixed;
             display: flex;
             justify-content: center;

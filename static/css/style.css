@@ -222,6 +222,13 @@ nav .nav-grow{
     padding-right: 0.75rem;
 }
 
+.btn-rounded{
+    border-radius: 5rem;
+    width: 2rem;
+    height: 2rem;
+    padding: unset;
+}
+
 .btn-stretch{
     border-radius: 5px;
     width: 100%;
@@ -286,11 +293,17 @@ nav .nav-grow{
     border-color: #3fa9f5;
 }
 
-.btn-secondary, .btn-secondary:hover, .btn-secondary:active{
-    background-color: #fff !important;
-    color: #3fa9f5 !important;
+.btn-secondary{
+    background-color: #ffffff00 !important;
+    color: #fff;
     border: none;
+    border: 2px solid #fff;
     font-weight: 500;
+    font-size: 0.8rem;
+}
+.btn-secondary:hover, .btn-secondary:active{
+    background-color: #ffffff3a !important;
+    border: 2px solid #fff;
 }
 
 .btn-light-main{

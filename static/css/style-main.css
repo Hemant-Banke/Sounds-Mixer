@@ -404,3 +404,109 @@
     width: 40px;
     height: 100%;
 }
+
+
+/*
+    Play Btns
+*/
+.play-btn-wrapper .btn{
+    margin: 0 0.25rem;
+}
+
+.play-btn-wrapper .btn-play{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-width: 2px;
+    padding: unset;
+}
+
+.btn-play{
+    border-color: greenyellow;
+    color: greenyellow;
+}
+
+.btn-stop{
+    border-color: yellow;
+    color: yellow;
+}
+
+.btn-record{
+    border-color: red;
+    color: red;
+}
+
+
+
+/*
+    Tiles
+*/
+.main-audio{
+    width: 100%;
+    height: calc(100% - 110px);
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+}
+
+.main-audio .tiles-wrapper{
+    padding-top: 2rem;
+    width: 260px;
+    height: 100%;
+}
+
+.tile-wrapper{
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    height: 75px;
+    background-color: #363636;
+    transition: all 0.15s;
+}
+
+.tile-wrapper .text-wrap{
+    padding: 0.5rem;
+    width: calc(100% - 40px);
+}
+.tile-wrapper .text-wrap span{
+    display: block;
+    width: 100%;
+}
+
+.tile-wrapper > .btn{
+    width: 40px;
+    height: 100%;
+}
+
+
+.main-audio .canvas-wrapper{
+    padding-top: 2rem;
+    height: 100%;
+    width: calc(100% - 260px);
+    overflow-x: auto;
+}
+
+
+/*
+    Canvas
+*/
+canvas.audio-visualize{
+    width: 100%;
+    height: 75px;
+}
+
+.empty-wrap{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.empty-wrap img{
+    width: 150px;
+    height: 150px;
+    margin-bottom: 1rem;
+}
