@@ -330,6 +330,35 @@ var Player = function(){
 }();
 
 
+// Drag Tracks
+var Drag = function(){
+
+    return {
+        handle: function(){
+            /*
+                Handles Drag Event for canvas
+            */
+            interact('.audio-visualize').draggable({
+                startAxis: 'x',
+                lockAxis: 'x',
+                listeners: {
+                    move (event) {
+                        var x0 = (event.target.style.left) ? event.target.style.left : '0px';
+                        x0 = parseInt(x0.replace('px', ''));
+                        var diff = event.dx;
+                        var x1 = x0 + diff;
+                        if (x1 < 0){
+                            x1 = 0;
+                        }
+                        event.target.style.left = x1.toString()+'px';
+                    },
+                }
+            });
+        },
+    }
+}();
+
+
 
 window.addEventListener('load', (event) => {
     console.log('Sounds App :-)');

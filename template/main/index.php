@@ -10,7 +10,7 @@
 <?php function content(){ ?>
 
     <div class="d-flex">
-        <div class="sidebar">
+        <div class="sidebar custom-scroll">
             <h4 class="font-weight-bold">Audio Files</h4>
 
             <div class="elem-list mt-3">
@@ -58,7 +58,7 @@
         </div>
 
 
-        <div class="main">
+        <div class="main custom-scroll">
             <h4 class="font-weight-bold">Play Area</h4>
 
             <div class="play-btn-wrapper my-3">
@@ -73,7 +73,7 @@
                 </button>
             </div>
 
-            <div class="d-flex main-audio">
+            <div class="d-flex main-audio custom-scroll">
 
                 <div class="empty-wrap">
                     <img class="lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
@@ -84,11 +84,9 @@
                     </div>
                 </div>
 
-                <div class="tiles-wrapper" id="tiles-wrapper">
-                </div>
+                <div class="tiles-wrapper" id="tiles-wrapper"></div>
 
-                <div class="canvas-wrapper" id="canvas-wrapper">
-                </div>
+                <div class="canvas-wrapper custom-scroll" id="canvas-wrapper"></div>
 
             </div>
         </div>
@@ -99,6 +97,7 @@
 
 <?php function extra_body(){ ?>
 
+    <script async src="<?php echo STATIC_DIR."js/interact.js"; ?>"></script>
     <script async src="<?php echo STATIC_DIR."js/tkd_script.js"; ?>"></script>
     <script async src="<?php echo STATIC_DIR."js/main.js"; ?>"></script>
 

@@ -3,6 +3,16 @@
 */
 var drawAudio = function(){
 
+    // Hardcoded value to convert from blocksize to seconds
+    const block_to_seconds = 0.001585;
+    // Hardcoded value to convert from raw length to seconds
+    const raw_to_seconds = block_to_seconds/70;
+    // Number of seconds displayed in initial zoom
+    const scale100 = 5*60;
+
+    var height = 75;
+    var last_sample = null;
+
     /**
      * Filters the AudioBuffer retrieved from an external source
      * @param {AudioBuffer} audioBuffer the AudioBuffer from drawAudio()
@@ -10,8 +20,9 @@ var drawAudio = function(){
      */
     const filterData = audioBuffer => {
         const rawData = audioBuffer.getChannelData(0);
-        const samples = 70;
+        const samples = Math.floor(rawData.length * raw_to_seconds) * 2; // Sample every 0.5s
         const blockSize = Math.floor(rawData.length / samples);
+
         const filteredData = [];
         for (let i = 0; i < samples; i++) {
             let blockStart = blockSize * i;
@@ -21,6 +32,7 @@ var drawAudio = function(){
             }
             filteredData.push(sum / blockSize);
         }
+        last_sample = samples;
         return filteredData;
     };
 
@@ -44,25 +56,30 @@ var drawAudio = function(){
     const draw = (normalizedData, canvas) => {
         // set up the canvas
         const dpr = window.devicePixelRatio || 1;
-        const padding = 20;
-        canvas.width = canvas.offsetWidth * dpr;
-        canvas.height = (canvas.offsetHeight + padding * 2) * dpr;
+        const padding = 5;
+        const width100 = document.getElementById('canvas-wrapper').offsetWidth;
+
+        // Display scale100 seconds in initial zoom
+        const cwidth = width100 * (last_sample/2) / scale100;
+
+        canvas.width = cwidth * dpr;
+        canvas.height = height * dpr;
         const ctx = canvas.getContext("2d");
         ctx.scale(dpr, dpr);
-        ctx.translate(0, canvas.offsetHeight / 2 + padding); // set Y = 0 to be in the middle of the canvas
+        ctx.translate(0, canvas.offsetHeight / 2); // set Y = 0 to be in the middle of the canvas
 
         // draw the line segments
         const width = canvas.offsetWidth / normalizedData.length;
         for (let i = 0; i < normalizedData.length; i++) {
             const x = width * i;
-            let height = normalizedData[i] * canvas.offsetHeight - padding;
+            let height = Math.round(normalizedData[i] * (canvas.offsetHeight - 2*padding) * 100) / 200;
             if (height < 0) {
                 height = 0;
             }
-            else if (height > canvas.offsetHeight / 2) {
-                height = height > canvas.offsetHeight / 2;
+            else if (height > canvas.offsetHeight/2 - padding) {
+                height = canvas.offsetHeight/2 - padding;
             }
-            drawLineSegment(ctx, x, height, width, (i + 1) % 2);
+            drawLineSegment(ctx, x, height, width);
         }
     };
 
@@ -75,15 +92,14 @@ var drawAudio = function(){
      * @param {number} width the desired width of the line segment
      * @param {boolean} isEven whether or not the segmented is even-numbered
      */
-    const drawLineSegment = (ctx, x, height, width, isEven) => {
+    const drawLineSegment = (ctx, x, height, width) => {
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#fff";
         ctx.beginPath();
-        height = isEven ? height : -height;
         ctx.moveTo(x, 0);
         ctx.lineTo(x, height);
-        ctx.arc(x + width / 2, height, width / 2, Math.PI, 0, isEven);
-        ctx.lineTo(x + width, 0);
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, -height);
         ctx.stroke();
     };
 
@@ -178,19 +194,29 @@ var Tiles = function(){
             var canvas = document.createElement('canvas');
             canvas.setAttribute('id', canvas_id);
             canvas.setAttribute('class', 'audio-visualize');
-            document.getElementById('canvas-wrapper').appendChild(canvas);
+
+            // ctx wrapper
+            var ctx_wrap = document.createElement('div');
+            ctx_wrap.setAttribute('class', 'ctx-wrapper');
+
+            document.getElementById('canvas-wrapper')
+            .appendChild(ctx_wrap)
+            .appendChild(canvas);
 
             drawAudio.audio(path, canvas);
 
             // Remove Event
             remove_event();
+
+            // Drag Event
+            Drag.handle();
             document.querySelector('.main-audio .empty-wrap').style.display = 'none';
         },
 
         remove: function(tile_len){
             // Remove corresponding tile and canvas
             var tile = document.getElementById('tile-'+tile_len.toString());
-            var canvas = document.getElementById('canvas-'+tile_len.toString());
+            var canvas = document.getElementById('canvas-'+tile_len.toString()).parentElement;
             if (tile){ tile.remove(); }
             if (canvas){ canvas.remove(); }
 
