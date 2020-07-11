@@ -1,0 +1,205 @@
+
+.login-card{
+    height: 100%;
+    background-color: #fff;
+}
+
+.login-card-nav{
+    height: 100%;
+}
+
+.login-card .row{
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.img-cover-brand{
+    position: relative;
+    /* height: 100%; */
+}
+
+.img-cover-brand img.brand-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    object-fit: cover;
+}
+
+.login-card .brand{
+    padding: 3rem;
+    color: #fff;
+    position: relative;
+}
+
+@media (max-width:767px){
+    .login-card{
+        min-height: 100vh;
+        height: auto;
+    }
+
+    .login-card .brand{
+        padding: 1rem 0;
+    }
+
+    .img-cover-brand{
+        height: 240px;
+    }
+}
+
+
+/* Login wrapper */
+.login-wrapper{
+    padding: 2rem 5rem;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form{
+    text-align: left;
+    max-width: 540px;
+    min-width: 340px;
+}
+
+.login-form label{
+    margin-bottom: 0;
+    color: #555;
+}
+
+
+@media (max-width:1199px){
+    .login-form{
+        width: 100%;
+        min-width: auto;
+    }
+
+    .login-wrapper{
+        padding: 1rem 3rem;
+    }
+}
+
+@media (max-width:991px){
+    .login-wrapper{
+        padding: 1rem 0;
+    }
+}
+
+/* Image Cover Text */
+.img-cover-text{
+    color: #fff;
+    height: 340px;
+    width: 100%;
+    position: relative;
+}
+
+.img-cover-text img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.img-cover-text span{
+    font-weight: 500;
+    font-size: 2rem;
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    text-shadow: 0 7px 14px rgba(0,0,0,.2);
+    color: #fff !important;
+}
+
+.img-cover-text:hover img{
+    top: -5px;
+    box-shadow: 0 7px 14px 0 rgba(0,0,0,.1);
+}
+
+.offer-info-location{
+    margin-left: 2rem;
+    position: relative;
+}
+
+.offer-info-location i.fa-arrow-down{
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: -0.3rem;
+    font-size: 1.5rem;
+    color: #333;
+
+}
+
+
+
+
+/* Avatar */
+.avatar-upload {
+    position: relative;
+    max-width: 115px;
+    margin: 0px auto;
+}
+
+.avatar-upload .avatar-edit {
+    position: absolute;
+    z-index: 1;
+    right: -10px;
+    top: 10px;
+}
+
+.avatar-upload .avatar-edit input {
+    display: none;
+}
+
+.avatar-upload .avatar-edit label {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0;
+    border-radius: 100%;
+    background: #3fa9f5;
+    box-shadow: 0 1px 6px rgba(57,73,76,.35);
+    cursor: pointer;
+    font-weight: normal;
+    transition: all .2s ease-in-out;
+}
+
+.avatar-upload .avatar-edit label:hover {
+    background: #f56c02;
+}
+
+.avatar-upload .avatar-edit label:after {
+    content: "\f304";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: #fff;
+    position: absolute;
+    top: 7px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: auto;
+}
+
+
+.avatar-preview {
+    width: 112px;
+    height: 112px;
+    position: relative;
+    border-radius: 100%;
+    border: 6px solid #F8F8F8;
+    box-shadow: 0 1px 6px rgba(57,73,76,.35);
+}
+
+.avatar-preview #imagePreview img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    object-fit: cover;
+}

@@ -1,0 +1,128 @@
+
+/* User Profile Section */
+.user-info-section{
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+    background-color: #fff;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+}
+
+.user-section .navbar-profile{
+    margin-bottom: 1rem;
+    height: auto;
+}
+
+.user-section .profile-icon img{
+    border: 5px solid #fff;
+    box-shadow: 0 1px 6px rgba(57,73,76,.35);
+    height: 12rem;
+    width: 12rem;
+    object-fit: cover;
+    border-radius: 5px;
+    border-width: 0;
+}
+
+.user-section .user-col{
+    text-align: center;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.user-section .user-col .card-subhead-text{
+    color: #333;
+    font-size: 0.95rem;
+}
+
+
+
+.user-head{
+    font-weight: 500;
+}
+
+.user-section .user-col .btn-trust{
+    width: 100%;
+    margin: 0.75rem 0;
+}
+
+.user-section .badge.badge-primary {
+    color: #f56c02;
+    background-color: #f56b022b;
+    padding: 0.35rem 0.75rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.user-section .btn-success {
+    font-weight: 500;
+}
+
+@media (max-width: 767px){
+    .user-large-col{
+        text-align: center;
+    }
+}
+
+
+
+.user-section .user-small-col .star-rating{
+    text-align: center;
+}
+
+.user-section .user-small-col .user-info-sidetext{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-large-mb{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+
+/* Feedback */
+.row-feedback{
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.row-feedback .profile-icon{
+    position: relative;
+}
+.row-feedback .profile-icon img{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 5px;
+}
+.row-feedback .profile-icon i.fas{
+    position: absolute;
+    bottom: -0.35rem;
+    right: -0.35rem;
+    font-size: 2rem;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.row-feedback .profile-name{
+    text-align: left;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+}
+.row-feedback .profile-name a{
+    color: #333;
+}
+
+.row-feedback .profile-name .feedback-text{
+    width: 100%;
+    font-weight: 400;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 4.5em;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+table#results-feedback thead{
+    display: none;
+}
