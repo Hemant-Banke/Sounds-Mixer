@@ -75,14 +75,8 @@
                     <i class="fas fa-dot-circle"></i>
                 </button>
             </div>
-            <div class="ruler">
-            <div class="ruler-block"></div>
-                <div class="ruler-main" id="ruler-main">
-                <canvas id="canv-1" width="2555.9" height="16">
-        </canvas>
-        <canvas class="ruler-inner" id="canv-2" height="15" width="2555.9"></canvas>
-                </div>
-            </div>
+
+
             <div class="d-flex main-audio custom-scroll">
 
                 <div class="empty-wrap">
@@ -93,11 +87,18 @@
                         Add tracks to Play Area
                     </div>
                 </div>
-                
+
                 <div class="tiles-wrapper" id="tiles-wrapper"></div>
 
                 <div class="canvas-wrapper custom-scroll" id="canvas-wrapper">
                     <div id="player-line"><i class="fas fa-sort-down"></i></div>
+
+                    <div class="ruler">
+                        <div class="ruler-main" id="ruler-main">
+                            <canvas id="canv-1" width="2555.9" height="16"></canvas>
+                            <canvas class="ruler-inner" id="canv-2" height="15" width="2555.9"></canvas>
+                        </div>
+                    </div>
                 </div>
 
             </div>

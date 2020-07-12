@@ -214,6 +214,7 @@ var Tiles = function(){
             Drag.handle(scale100);
             document.querySelector('.main-audio .empty-wrap').style.display = 'none';
             document.querySelector('#player-line').style.display = 'block';
+            document.querySelector('.ruler').style.display = 'flex';
         },
 
         remove: function(tile_len){
@@ -228,6 +229,7 @@ var Tiles = function(){
             if (document.getElementsByClassName('tile-wrapper').length == 0){
                 document.querySelector('.main-audio .empty-wrap').style.display = 'flex';
                 document.querySelector('#player-line').style.display = 'none';
+                document.querySelector('.ruler').style.display = 'none';
             }
         },
     }
@@ -277,6 +279,8 @@ window.addEventListener('load', (event) => {
     });
 
 });
+
+
 // ruler
 var canv_1 = document.getElementById('canv-1');
 var ctx_1 = canv_1.getContext("2d");

@@ -447,7 +447,7 @@
 }
 
 .main-audio .tiles-wrapper{
-    padding-top: 2rem;
+    padding-top: 2.5rem;
     width: 260px;
     height: 100%;
 }
@@ -478,7 +478,7 @@
 
 
 .main-audio .canvas-wrapper{
-    padding-top: 2rem;
+    padding-top: 2.5rem;
     margin-left: 0.75rem;
     height: 100%;
     width: calc(100% - 260px);
@@ -544,11 +544,11 @@ canvas.audio-visualize{
 #player-line{
     position: absolute;
     left: 0;
-    top: 1rem;
+    top: 0.5rem;
     background-color: tomato;
     width: 3px;
     border-radius: 2px;
-    height: calc(100% - 1rem);
+    height: calc(100% - 0.5rem);
     content: ' ';
     z-index: 999;
     display: none;
@@ -566,34 +566,35 @@ canvas.audio-visualize{
 
 /* ruler */
 .ruler {
-    width: 100%;
-    display: flex;
-    position: relative;
-
-}
-.ruler-block{
+    width: 0;
+    display: none;
     position: absolute;
-    padding-top: 2rem;
-    width: 260px;
-    height: 30px;
-    background-color: red;
+    top: 0;
+    left: 0;
 }
 .ruler-main{
     position: absolute;
-    top: 0;
-    left: 270px;
+    top: 0.5rem;
+    left: 0;
     margin-left: 1px;
-    width:2514px;
-    height: 30px;
+    width: 100%;
+    height: 50px;
     margin-top: -10px;
     color: white;
-    
 }
 
 /* ruler-canvas */
+#canv-1,
+#canv-2{
+    position: absolute;
+}
 
 #canv-1{
     margin-right: 5px;
     padding-left: 0px;
-    margin-left: -10px;
+    margin-left: 0px;
+}
+
+#canv-2{
+    bottom: 0.5rem;
 }
