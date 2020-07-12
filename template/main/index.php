@@ -65,6 +65,9 @@
                 <button class="btn btn-rounded btn-secondary btn-play" id="btn-play" name="btn-play" title="Play">
                     <i class="fas fa-play"></i>
                 </button>
+                <button class="btn btn-rounded btn-secondary btn-play-curr" id="btn-play-curr" name="btn-play-curr" title="Play from selected">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
                 <button class="btn btn-rounded btn-secondary btn-stop" id="btn-stop" name="btn-stop" title="Stop">
                     <i class="fas fa-stop"></i>
                 </button>
@@ -86,7 +89,9 @@
 
                 <div class="tiles-wrapper" id="tiles-wrapper"></div>
 
-                <div class="canvas-wrapper custom-scroll" id="canvas-wrapper"></div>
+                <div class="canvas-wrapper custom-scroll" id="canvas-wrapper">
+                    <div id="player-line"><i class="fas fa-sort-down"></i></div>
+                </div>
 
             </div>
         </div>

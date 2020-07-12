@@ -1,14 +1,15 @@
 /*
     Draws Audio into Canvas
 */
+// Number of seconds displayed in initial zoom
+var scale100 = 5*60;
+
 var drawAudio = function(){
 
     // Hardcoded value to convert from blocksize to seconds
     const block_to_seconds = 0.001585;
     // Hardcoded value to convert from raw length to seconds
     const raw_to_seconds = block_to_seconds/70;
-    // Number of seconds displayed in initial zoom
-    const scale100 = 5*60;
 
     var height = 75;
     var last_sample = null;
@@ -189,6 +190,7 @@ var Tiles = function(){
 
             // Play Track
             play_track_event();
+            Player.add_track(tile_len, name, path, 0);
 
             // Add Canvas
             var canvas = document.createElement('canvas');
@@ -209,8 +211,9 @@ var Tiles = function(){
             remove_event();
 
             // Drag Event
-            Drag.handle();
+            Drag.handle(scale100);
             document.querySelector('.main-audio .empty-wrap').style.display = 'none';
+            document.querySelector('#player-line').style.display = 'block';
         },
 
         remove: function(tile_len){
@@ -220,8 +223,11 @@ var Tiles = function(){
             if (tile){ tile.remove(); }
             if (canvas){ canvas.remove(); }
 
+            Player.rm_track(tile_len);
+
             if (document.getElementsByClassName('tile-wrapper').length == 0){
                 document.querySelector('.main-audio .empty-wrap').style.display = 'flex';
+                document.querySelector('#player-line').style.display = 'none';
             }
         },
     }
@@ -232,17 +238,32 @@ var Tiles = function(){
 window.addEventListener('load', (event) => {
 
     var btn_play = document.getElementById('btn-play');
+    var btn_play_curr = document.getElementById('btn-play-curr');
     var btn_stop = document.getElementById('btn-stop');
     var btn_record = document.getElementById('btn-record');
 
     // Player Buttons Event
     btn_play.addEventListener('click', function(){
-        Player.play()
+        Player.play(scale100);
+    });
+
+    btn_play_curr.addEventListener('click', function(){
+        var line = document.getElementById('player-line');
+        var init_per = 0;
+        if (line){
+            init_per = parseFloat(line.style.left.replace('%', ''));
+        }
+
+        Player.play(scale100, init_per);
     });
 
     btn_stop.addEventListener('click', function(){
-        Player.stop()
+        Player.stop();
     });
+
+
+    // Pointer Line Drag Event
+    Drag.handle_line();
 
 
     // Add Audio to main

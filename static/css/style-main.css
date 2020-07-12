@@ -479,10 +479,12 @@
 
 .main-audio .canvas-wrapper{
     padding-top: 2rem;
-    padding-left: 0.75rem;
+    margin-left: 0.75rem;
     height: 100%;
     width: calc(100% - 260px);
     overflow-x: auto;
+    overflow-y: visible;
+    position: relative;
 }
 
 .custom-scroll::-webkit-scrollbar {
@@ -536,4 +538,27 @@ canvas.audio-visualize{
     width: 150px;
     height: 150px;
     margin-bottom: 1rem;
+}
+
+
+#player-line{
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    background-color: tomato;
+    width: 3px;
+    border-radius: 2px;
+    height: calc(100% - 1rem);
+    content: ' ';
+    z-index: 999;
+    display: none;
+    touch-action: none;
+    user-select: none;
+}
+#player-line i.fas{
+    position: absolute;
+    left: -8px;
+    top: -18px;
+    font-size: 2rem;
+    color: tomato;
 }

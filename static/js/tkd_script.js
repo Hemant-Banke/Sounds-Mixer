@@ -302,26 +302,131 @@ var Pagination = function(){
 }();
 
 
+
 // Audio Player
 var Player = function(){
-    var playing_audio = null;
+    // Current playing track (null otherwise)
+    var playing_track = null;
+
+    // All loaded tracks in play area
+    /*
+        main_tracks[track_len] = {
+            name: name,
+            path: path,
+            start_time: start_time,
+            audio: new Audio(path),
+            is_playing: false,
+        };
+    */
+    var main_tracks = [];
+
+    // Is the main play active
+    var main_playing = false;
+
+    // Current Playing time in seconds
+    var curr_time = 0;
+
+    var play_interval = null;
 
     return {
-        play: function(){
+        play: function(scale, init_per = 0){
+            Player.stop();
+            main_playing = true;
             msg.success('', 'Playing');
+
+            var init_time = 0;
+            if (init_per > 0){
+                init_time = init_per*scale/100;
+                init_time = Math.round(init_time*100)/100;
+
+                curr_time = init_time;
+            }
+
+            // Check Tracks and move pointer every 0.01s
+            play_interval = setInterval(function(){
+                if (main_playing){
+                    for(key in main_tracks){
+                        var track = main_tracks[key];
+
+                        if (!track.is_playing && curr_time >= track.start_time){
+                            if (init_time > 0 && (curr_time - track.start_time) > 0){
+                                track.audio.currentTime = curr_time - track.start_time;
+                            }
+                            track.audio.play();
+                            track.is_playing = true;
+                        }
+                    }
+
+                    curr_time += 0.01;
+                    Player.move_line(curr_time, scale);
+                }
+                else{
+                    clearInterval(play_interval);
+                }
+            }, 10);
+        },
+
+        move_line: function(time, scale){
+            /*
+                Moves the player line to desired time(s)
+            */
+
+            var line = document.getElementById('player-line');
+            if (line){
+                var left_per = time*100/scale;
+                left_per = Math.round(left_per*100)/100;
+
+                line.style.left = left_per.toString()+'%';
+            }
+        },
+
+        add_track: function(track_len, name, path, start_time = 0){
+            main_tracks[track_len] = {
+                name: name,
+                path: path,
+                start_time: start_time,
+                audio: new Audio(path),
+                is_playing: false,
+            };
+        },
+
+        move_track: function(track_len, start_time = 0){
+            main_tracks[track_len].start_time = start_time;
+        },
+
+        rm_track: function(track_len){
+            delete main_tracks[track_len];
         },
 
         stop: function(){
-            if (playing_audio){
-                playing_audio.pause();
+            if (playing_track){
+                playing_track.pause();
+                playing_track.currentTime = 0;
+                playing_track = null;
+            }
+
+            if (main_playing){
+                for(key in main_tracks){
+                    var track = main_tracks[key];
+                    track.audio.pause();
+                    track.audio.currentTime = 0;
+                    track.is_playing = false;
+                }
+
+                if (play_interval){
+                    clearInterval(play_interval);
+                }
+
+                main_playing = false;
+                curr_time = 0;
             }
         },
 
         play_track: function(path, name){
             if(path){
                 Player.stop();
-                playing_audio = new Audio(path);
-                playing_audio.play();
+                playing_track = new Audio(path);
+                playing_track.play();
 
                 msg.success('Playing ' + name, 'Playing');
             }
@@ -334,10 +439,13 @@ var Player = function(){
 var Drag = function(){
 
     return {
-        handle: function(){
+        handle: function(scale){
             /*
                 Handles Drag Event for canvas
             */
+            // Inner Width in px to initial scale warapper
+            const wpx = document.getElementById('canvas-wrapper').offsetWidth;
+
             interact('.audio-visualize').draggable({
                 startAxis: 'x',
                 lockAxis: 'x',
@@ -351,6 +459,45 @@ var Drag = function(){
                             x1 = 0;
                         }
                         event.target.style.left = x1.toString()+'px';
+
+                        // Stop Player
+                        Player.stop();
+                        // Move Start time
+                        var start_time = (x1 * scale100)/wpx;
+                        start_time = Math.round(start_time * 100)/100;
+
+                        var track_len = parseInt(event.target.id.replace('canvas-', ''));
+                        Player.move_track(track_len, start_time);
+
+                    },
+                }
+            });
+        },
+
+        handle_line: function(){
+            /*
+                Handles Drag Event for pointer line
+            */
+            // Inner Width in px to initial scale warapper
+            const wpx = document.getElementById('canvas-wrapper').offsetWidth;
+
+            interact('#player-line').draggable({
+                startAxis: 'x',
+                lockAxis: 'x',
+                listeners: {
+                    move (event) {
+                        var x0 = (event.target.style.left) ? event.target.style.left : '0%';
+                        x0 = parseFloat(x0.replace('%', ''));
+                        var diff = event.dx*100/wpx;
+                        var x1 = x0 + diff;
+                        if (x1 < 0){
+                            x1 = 0;
+                        }
+                        x1 = Math.round(x1*100)/100;
+                        event.target.style.left = x1.toString()+'%';
+
+                        // Stop Player
+                        Player.stop();
                     },
                 }
             });
