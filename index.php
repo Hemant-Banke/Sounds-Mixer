@@ -14,6 +14,7 @@
         $base_dir = str_replace('/var/www/html', '', $base_dir);
         // XAMPP
         $base_dir = str_replace('file:///C:/xampp/htdocs', '', $base_dir);
+        // $base_dir = '/projects/Sounds-Mixer/';
     }
     elseif(strstr($site_host,"demo-")){
         define('ENVIRONMENT' , 'testing');

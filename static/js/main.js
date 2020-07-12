@@ -173,7 +173,7 @@ var Tiles = function(){
             document.getElementById('tiles-wrapper').innerHTML += `
                 <div class="tile-wrapper" id="${tile_id}">
                     <button class="btn btn-primary btn-main-move" data-tile-len="${tile_len}" name="btn-main-move">
-                        <i class="fas fa-chevron-left"></i>
+                        <i class="fas fa-minus"></i>
                     </button>
 
                     <div class="text-wrap">
@@ -277,3 +277,32 @@ window.addEventListener('load', (event) => {
     });
 
 });
+// ruler
+var canv_1 = document.getElementById('canv-1');
+var ctx_1 = canv_1.getContext("2d");
+
+var canv_2 = document.getElementById('canv-2');
+var ctx_2 = canv_2.getContext("2d");
+ctx_2.moveTo(0, 14);
+ctx_2.lineTo(2540, 14);
+ctx_2.stroke();
+
+ctx_1.fillStyle = "white";
+ctx_1.font = "15px Arial";
+var k=0;
+var n =0;
+for(var i=0;i<canv_2.width;i+=41.9){
+if (k%6 == 0 || k==0){
+    var y=0;
+    ctx_1.fillText(n+"min", i,14 );
+    n++
+}
+else{
+var y=7;
+}
+ctx_2.moveTo(i,y);
+ctx_2.lineTo(i,15);
+k++;
+
+}
+ctx_2.stroke();

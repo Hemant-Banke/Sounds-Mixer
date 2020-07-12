@@ -562,3 +562,38 @@ canvas.audio-visualize{
     font-size: 2rem;
     color: tomato;
 }
+
+
+/* ruler */
+.ruler {
+    width: 100%;
+    display: flex;
+    position: relative;
+
+}
+.ruler-block{
+    position: absolute;
+    padding-top: 2rem;
+    width: 260px;
+    height: 30px;
+    background-color: red;
+}
+.ruler-main{
+    position: absolute;
+    top: 0;
+    left: 270px;
+    margin-left: 1px;
+    width:2514px;
+    height: 30px;
+    margin-top: -10px;
+    color: white;
+    
+}
+
+/* ruler-canvas */
+
+#canv-1{
+    margin-right: 5px;
+    padding-left: 0px;
+    margin-left: -10px;
+}
