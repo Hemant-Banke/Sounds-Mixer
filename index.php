@@ -67,6 +67,11 @@
     */
     include BASE_DIR.'helpers/functions.php';
 
+    /*
+        Load DB Config
+    */
+    include BASE_DIR.'helpers/config.php';
+
 
     /*
         Load Index SPA

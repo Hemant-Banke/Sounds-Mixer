@@ -77,35 +77,15 @@ var FormValidate = function() {
 
 // Fetch API
 var Fetch = function(){
-
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
     return {
-        post: function(url, data, success, btn=null) {
-            if (btn){
-                Button.disable(btn);
-            }
+        post: function(url, data, success) {
+            Loader.start();
 
             // Fetch
             fetch(url, {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
                     "Accept": "application/json",
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
@@ -114,9 +94,7 @@ var Fetch = function(){
             })
             .then(
                 function(response) {
-                    if (btn){
-                        Button.enable(btn);
-                    }
+                    Loader.end();
 
                     if (response.status !== 200) {
                         console.log('Looks like there was a problem. Status Code: ' +
@@ -138,105 +116,9 @@ var Fetch = function(){
                 }
             )
             .catch(function(err) {
+                Loader.end();
                 console.log('Fetch Error :-S', err);
                 msg.error('Looks like there was a problem! Please try again.', 'Error');
-
-                if (btn){
-                    Button.enable(btn);
-                }
-            });
-        },
-
-        post_multipart: function(url, data, success, btn=null) {
-            if (btn){
-                Button.disable(btn);
-            }
-
-            const formData  = new FormData();
-            for(const name in data) {
-                formData.append(name, data[name]);
-            }
-
-            // Fetch
-            fetch(url, {
-                method: "POST",
-                credentials: "same-origin",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "Accept": "application/json",
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                body: formData,
-            })
-            .then(
-                function(response) {
-                    if (btn){
-                        Button.enable(btn);
-                    }
-
-                    if (response.status !== 200) {
-                        console.log('Looks like there was a problem. Status Code: ' +
-                        response.status);
-
-                        msg.error('Looks like there was a problem! Please try again.', 'Error');
-                        return;
-                    }
-
-                    // Examine the text in the response
-                    response.json().then(function(data) {
-                        if (data.type == 'success'){
-                            success(data);
-                        }
-                        else{
-                            msg.error(data.message, 'Error');
-                        }
-                    });
-                }
-            )
-            .catch(function(err) {
-                console.log('Fetch Error :-S', err);
-                msg.error('Looks like there was a problem! Please try again.', 'Error');
-
-                if (btn){
-                    Button.enable(btn);
-                }
-            });
-        },
-
-        get_crossorigin: function(url, success, btn=null) {
-            if (btn){
-                Button.disable(btn);
-            }
-
-            // Fetch
-            fetch(url)
-            .then(
-                function(response) {
-                    if (btn){
-                        Button.enable(btn);
-                    }
-
-                    if (response.status !== 200) {
-                        console.log('Looks like there was a problem. Status Code: ' +
-                        response.status);
-
-                        msg.error('Looks like there was a problem! Please try again.', 'Error');
-                        return;
-                    }
-
-                    // Examine the text in the response
-                    response.json().then(function(data) {
-                        success(data);
-                    });
-                }
-            )
-            .catch(function(err) {
-                console.log('Fetch Error :-S', err);
-                msg.error('Looks like there was a problem! Please try again.', 'Error');
-
-                if (btn){
-                    Button.enable(btn);
-                }
             });
         },
     }
@@ -316,9 +198,10 @@ var Player = function(){
             start_time: start_time,
             audio: new Audio(path),
             is_playing: false,
+            vol: 1
         };
     */
-    var main_tracks = [];
+    var main_tracks = {};
 
     // Is the main play active
     var main_playing = false;
@@ -327,6 +210,9 @@ var Player = function(){
     var curr_time = 0;
 
     var play_interval = null;
+
+    var saved = false;
+    var save_name = null;
 
     return {
         play: function(scale, init_per = 0){
@@ -380,13 +266,14 @@ var Player = function(){
             }
         },
 
-        add_track: function(track_len, name, path, start_time = 0){
+        add_track: function(track_len, name, path, start_time = 0, vol=1){
             main_tracks[track_len] = {
                 name: name,
                 path: path,
                 start_time: start_time,
                 audio: new Audio(path),
                 is_playing: false,
+                vol: vol,
             };
         },
 
@@ -394,8 +281,23 @@ var Player = function(){
             main_tracks[track_len].start_time = start_time;
         },
 
+        change_vol: function(track_len, vol = 1){
+            main_tracks[track_len].vol = vol;
+            main_tracks[track_len].audio.volume = vol;
+        },
+
         rm_track: function(track_len){
+            Player.stop();
             delete main_tracks[track_len];
+        },
+
+        empty: function(){
+            Player.stop();
+            main_tracks = {};
+
+            document.getElementById('save_name').innerHTML = 'Unsaved';
+            save_name = null;
+            saved = false;
         },
 
         stop: function(){
@@ -430,7 +332,74 @@ var Player = function(){
 
                 msg.success('Playing ' + name, 'Playing');
             }
-        }
+        },
+
+        load: function(load_name, Tiles){
+
+            Fetch.post(
+                basepath+'controller/actions.php',
+                {
+                    action: 'load',
+                    load_name: load_name,
+                },
+                function(data){
+                    main_tracks = {};
+                    var tracks_list = JSON.parse(data.tracks.save_tracks);
+                    Tiles.empty();
+
+                    for(key in tracks_list){
+                        var track = tracks_list[key];
+
+                        if (track){
+                            Tiles.add(track.name, track.path, track.start_time, track.vol);
+                        }
+                    }
+
+                    save_name = load_name;
+                    saved = true;
+                    document.getElementById('save_name').innerHTML = save_name;
+                    msg.success('Loaded you tracks under name '+load_name, 'Loaded');
+                }
+            );
+        },
+
+        get_save_status: function(){
+            return (saved) ? save_name : false;
+        },
+
+        save: function(new_name){
+
+            var tracks_list = [];
+            for(key in main_tracks){
+                var track = main_tracks[key];
+
+                tracks_list[key] = {
+                    name: track.name,
+                    path: track.path,
+                    start_time: track.start_time,
+                    is_playing: false,
+                    vol: track.vol,
+                };
+            }
+
+            if (!saved){
+                save_name = new_name;
+            }
+            Fetch.post(
+                basepath+'controller/actions.php',
+                {
+                    action: 'save',
+                    new_name: save_name,
+                    saved: saved,
+                    tracks: tracks_list,
+                },
+                function(data){
+                    document.getElementById('save_name').innerHTML = save_name;
+                    saved = true;
+                    msg.success('Saved your tracks under name '+save_name, 'Saved');
+                }
+            );
+        },
     }
 }();
 
@@ -463,7 +432,7 @@ var Drag = function(){
                         // Stop Player
                         Player.stop();
                         // Move Start time
-                        var start_time = (x1 * scale100)/wpx;
+                        var start_time = (x1 * scale)/wpx;
                         start_time = Math.round(start_time * 100)/100;
 
                         var track_len = parseInt(event.target.id.replace('canvas-', ''));

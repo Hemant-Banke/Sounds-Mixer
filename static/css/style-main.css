@@ -598,3 +598,11 @@ canvas.audio-visualize{
 #canv-2{
     bottom: 0.5rem;
 }
+
+
+/*
+    Input Range
+*/
+input.form-range{
+    width: 100px;
+}

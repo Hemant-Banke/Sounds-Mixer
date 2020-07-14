@@ -59,7 +59,8 @@
 
 
         <div class="main custom-scroll">
-            <h4 class="font-weight-bold">Play Area</h4>
+            <h4 class="font-weight-bold mb-0">Play Area</h4>
+            <small id="save_name">Unsaved</small>
 
             <div class="play-btn-wrapper my-3">
                 <button class="btn btn-rounded btn-secondary btn-play" id="btn-play" name="btn-play" title="Play">
@@ -73,6 +74,15 @@
                 </button>
                 <button class="btn btn-rounded btn-secondary btn-record" id="btn-record" name="btn-record" title="Record">
                     <i class="fas fa-dot-circle"></i>
+                </button>
+                <button class="btn rounded-pill btn-secondary btn-save" id="btn-save" name="btn-save" title="Save">
+                    Save
+                </button>
+                <button class="btn rounded-pill btn-secondary btn-load" id="btn-load" name="btn-load" title="Load Save">
+                    Load
+                </button>
+                <button class="btn rounded-pill btn-secondary btn-new" id="btn-new" name="btn-new" title="New Edit">
+                    New
                 </button>
             </div>
 
@@ -105,10 +115,58 @@
         </div>
     </div>
 
+
+    <!-- Save -->
+    <div class="modal fade" id="modal-save" data-backdrop="static" tabindex="-1" aria-labelledby="modal-saveLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-saveLabel">Save New</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="msave_name">Name</label>
+                    <input type="text" class="form-control" id="msave_name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="mbtn-save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load -->
+    <div class="modal fade" id="modal-load" data-backdrop="static" tabindex="-1" aria-labelledby="modal-loadLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-loadLabel">Load previous edits</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="font-weight-bold">Saves</h6>
+                    <div id="mload-saves">
+                        <div class="text-center my-3">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <?php } ?>
 
 
 <?php function extra_body(){ ?>
+
+    <script>var basepath = '<?php echo $base_dir ?>';</script>
 
     <script async src="<?php echo STATIC_DIR."js/interact.js"; ?>"></script>
     <script async src="<?php echo STATIC_DIR."js/tkd_script.js"; ?>"></script>
