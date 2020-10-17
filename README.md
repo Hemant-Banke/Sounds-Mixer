@@ -18,7 +18,7 @@ The app will be available at [localhost/sounds](#)
 
 ## Interface
 
-![alt text](https://github.com/Hemant-Banke/Sounds-Mixer/showcase/image.jpg?raw=true)
+![alt text](https://github.com/Hemant-Banke/Sounds-Mixer/blob/master/Screenshot%20from%202020-07-12%2008-38-39.png?raw=true)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
