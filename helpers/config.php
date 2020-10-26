@@ -1,8 +1,8 @@
 <?php
   define('DB_SERVER', 'localhost');
-  define('DB_USERNAME', 'phpmyadmin');
-  define('DB_PASSWORD', '19F19acy@');
-  define('DB_DATABASE', 'phpmyadmin');
+  define('DB_USERNAME', '<username>');
+  define('DB_PASSWORD', '<password>');
+  define('DB_DATABASE', '<db name>');
   define('DB_TABLE', 'sounds_saves');
 
    /* Attempt to connect to MySQL database */
